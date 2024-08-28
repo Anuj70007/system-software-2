@@ -1,0 +1,11 @@
+File: test.txt
+  Inode: 6045136
+  Number of hard links: 1
+  UID: 1000
+  GID: 1000
+  Size: 17 bytes
+  Block size: 4096 bytes
+  Number of blocks: 8
+  Time of last access: Wed Aug 28 22:04:17 2024
+  Time of last modification: Wed Aug 28 22:04:17 2024
+  Time of last change: Wed Aug 28 22:04:17 2024
