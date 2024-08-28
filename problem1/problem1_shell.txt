@@ -1,0 +1,4 @@
+anujchaudhary@anujchaudhary-LOQ-15APH8:~/problems$ ln -s happy.txt soft.txt
+anujchaudhary@anujchaudhary-LOQ-15APH8:~/problems$ ln happy.txt hard.txt
+anujchaudhary@anujchaudhary-LOQ-15APH8:~/problems$ mkfifo first.txt
+
