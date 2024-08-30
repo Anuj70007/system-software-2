@@ -1,3 +1,11 @@
+/*
+============================================================================
+Name : 15.c
+Author : Anuj Chaudhary
+Description : . Write a program to display the environmental variable of the user (use environ)
+Date: 30th Aug, 2024.
+============================================================================
+*/
 #include <stdio.h>
 #include <stdlib.h>
 extern char **environ;

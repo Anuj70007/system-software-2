@@ -1,6 +1,6 @@
 /*
 ============================================================================
-Name : 17a.c
+Name : 17b.c
 Author : Anuj Chaudhary
 Description : Write a program to simulate online ticket reservation. Implement write lock
 Write a program to open a file, store a ticket number and exit. Write a separate program, to

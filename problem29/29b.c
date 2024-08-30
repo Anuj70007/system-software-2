@@ -1,6 +1,6 @@
 /*
 ============================================================================
-Name : 29.c
+Name : 29b.c
 Author : Anuj Chaudhary
 Description : Write a program to get scheduling policy and modify the scheduling policy (SCHED_FIFO,SCHED_RR)
 Date: 30th Aug, 2024.

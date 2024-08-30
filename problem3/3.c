@@ -1,3 +1,11 @@
+/*
+============================================================================
+Name : 3.c
+Author : Anuj Chaudhary
+Description : Write a program to create a file and print the file descriptor value. Use creat ( ) system call.
+Date: 30th Aug, 2024.
+============================================================================
+*/
 #include <stdio.h>
 #include <fcntl.h>  
 #include <unistd.h> 

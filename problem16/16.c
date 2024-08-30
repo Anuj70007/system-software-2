@@ -1,3 +1,13 @@
+/*
+============================================================================
+Name : 16.c
+Author : Anuj Chaudhary
+Description : Write a program to perform mandatory locking.
+a. Implement write lock
+b. Implement read lock
+Date: 30th Aug, 2024.
+============================================================================
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>

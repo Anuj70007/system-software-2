@@ -1,3 +1,21 @@
+/*
+============================================================================
+Name : 9.c
+Author : Anuj Chaudhary
+Description : Write a program to print the following information about a given file.
+a. inode
+b. number of hard links
+c. uid
+d. gid
+e. size
+f. block size
+g. number of blocks
+h. time of last access
+i. time of last modification
+j. time of last change
+Date: 30th Aug, 2024.
+============================================================================
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>

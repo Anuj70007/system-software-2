@@ -1,3 +1,11 @@
+/*
+============================================================================
+Name : 20.c
+Author : Anuj Chaudhary
+Description : Find out the priority of your running program. Modify the priority with nice command.
+Date: 30th Aug, 2024.
+============================================================================
+*/
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/time.h>
