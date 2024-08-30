@@ -12,7 +12,7 @@ Date: 30th Aug, 2024.
 
 int main(int count, char *in[]) {
     if (count > 1) {
-        printf("my , %s!\n", in[1]);
+        printf("hello my name is , %s!\n", in[1]);
     } else {
         printf("new\n");
     }

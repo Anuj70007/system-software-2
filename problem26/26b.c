@@ -15,8 +15,8 @@ Date: 30th Aug, 2024.
 
 int main() {
     char *program = "./26a";  
-    char *args[] = {program, "name", NULL}; 
-    printf("exec program %s with agrument 'name'\n", program);
+    char *args[] = {program, "anuj", NULL}; 
+    printf("exec program %s with agrument -> anuj\n", program);
     execvp(program, args);
     perror("exec fail");
     return 1;
