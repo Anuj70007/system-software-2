@@ -1,6 +1,6 @@
 /*
 ============================================================================
-Name : 17a.c
+Name : 17c.c
 Author : Anuj Chaudhary
 Description : Write a program to execute ls -l | wc.
 a. use dup
@@ -9,10 +9,10 @@ c. use fcntl
 Date: 27th sep, 2024.
 ============================================================================
 */
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <fcntl.h>
 
 int main() {
     int pipefd[2];  // pipefd[0] for reading, pipefd[1] for writing
@@ -34,17 +34,17 @@ int main() {
 
     if (pid == 0) {
         // Child process: will execute "ls -l"
-        close(pipefd[0]);  // Close unused read end of the pipe
-        dup(pipefd[1]);    // Duplicate write end of the pipe to stdout (fd 1)
-        close(pipefd[1]);  // Close original write end after duplicating
+        close(pipefd[0]);      // Close unused read end of the pipe
+        fcntl(pipefd[1], F_DUPFD, 1);  // Duplicate write end of the pipe to stdout (fd 1)
+        close(pipefd[1]);      // Close original write end after duplicating
         execlp("ls", "ls", "-l", (char *)NULL);  // Execute ls -l
         perror("execlp failed");
         exit(1);
     } else {
         // Parent process: will execute "wc"
-        close(pipefd[1]);  // Close unused write end of the pipe
-        dup(pipefd[0]);    // Duplicate read end of the pipe to stdin (fd 0)
-        close(pipefd[0]);  // Close original read end after duplicating
+        close(pipefd[1]);      // Close unused write end of the pipe
+        fcntl(pipefd[0], F_DUPFD, 0);  // Duplicate read end of the pipe to stdin (fd 0)
+        close(pipefd[0]);      // Close original read end after duplicating
         execlp("wc", "wc", (char *)NULL);  // Execute wc
         perror("execlp failed");
         exit(1);

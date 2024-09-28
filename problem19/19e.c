@@ -1,6 +1,6 @@
 /*
 ============================================================================
-Name : 19
+Name : 19e.c
 Author : Anuj Chaudhary
 Description : Create a FIFO file by
 a. mknod command
@@ -12,6 +12,22 @@ Date: 27th sep, 2024.
 ============================================================================
 */
 
-a) mknod my_fifo p
-b) mkfifo my_fifo
-c)strace mknod my_fifo p , strace mkfifo my_fifo
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+int main() {
+    // Path to the FIFO
+    const char *fifo_path = "my_fifo";
+
+    // Create the FIFO using the mkfifo library function
+    if (mkfifo(fifo_path, 0666) == -1) {
+        perror("mkfifo failed");
+        return 1;
+    }
+
+    printf("FIFO created using mkfifo library function\n");
+
+    return 0;
+}
+

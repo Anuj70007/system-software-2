@@ -2,20 +2,44 @@
 ============================================================================
 Name : 6.c
 Author : Anuj Chaudhary
-Description : rite a program to take input from STDIN and display on STDOUT. Use only read/write system calls
-Date: 30th Aug, 2024.
+Description : Write a simple program to create three threads.
+Date: 20th sep, 2024.
 ============================================================================
 */
-#include <unistd.h>
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+// Function that will be executed by each thread
+void* thread_function(void* arg) {
+    long thread_id = (long)arg; // Cast the argument to long to get thread ID
+    printf("Hello from thread %ld\n", thread_id);
+    return NULL; // Exit the thread
+}
 
 int main() {
-    char start[1024];
-    ssize_t size;
+    pthread_t threads[3]; // Array to hold thread identifiers
+    int rc;
 
-    while ((size = read(STDIN_FILENO, start, sizeof(start))) > 0) {
-        write(STDOUT_FILENO, start, size);
+    // Create three threads
+    for (long i = 0; i < 3; i++) {
+        rc = pthread_create(&threads[i], NULL, thread_function, (void*)i);
+        if (rc) {
+            fprintf(stderr, "Error creating thread %ld: %d\n", i, rc);
+            exit(EXIT_FAILURE);
+        }
     }
 
-    return 0;
+    // Wait for all threads to finish
+    for (int i = 0; i < 3; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    printf("All threads have completed.\n");
+    return 0; // Exit the program
 }
 

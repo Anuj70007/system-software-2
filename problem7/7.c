@@ -2,28 +2,41 @@
 ============================================================================
 Name : 7.c
 Author : Anuj Chaudhary
-Description :Write a program to copy file1 into file2 ($cp file1 file2)
-Date: 30th Aug, 2024.
+Description : Write a simple program to print the created thread ids
+Date: 20th sep, 2024.
 ============================================================================
 */
-#include <fcntl.h>
-#include <unistd.h>
 
-int main(int input, char *file[]) {
-    if (input != 3) return 1;
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
 
-    int Fdo = open(file[1], O_RDONLY);
-    int Fdn = open(file[2], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-    if (Fdo < 0 || Fdn < 0) return 1;
+// Function that will be executed by each thread
+void* thread_function(void* arg) {
+    pthread_t thread_id = pthread_self(); // Get the thread ID
+    printf("Thread created with ID: %lu\n", (unsigned long)thread_id);
+    return NULL; // Exit the thread
+}
 
-    char buffer[1024];
-    ssize_t total;
-    while ((total = read(Fdo, buffer, 1024)) > 0) {
-        if (write(Fdn, buffer, total) != total) return 1;
+int main() {
+    pthread_t threads[3]; // Array to hold thread identifiers
+    int rc;
+
+    // Create three threads
+    for (int i = 0; i < 3; i++) {
+        rc = pthread_create(&threads[i], NULL, thread_function, NULL);
+        if (rc) {
+            fprintf(stderr, "Error creating thread %d: %d\n", i, rc);
+            exit(EXIT_FAILURE);
+        }
     }
 
-    close(Fdo);
-    close(Fdn);
-    return 0;
+    // Wait for all threads to finish
+    for (int i = 0; i < 3; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    printf("All threads have completed.\n");
+    return 0; // Exit the program
 }
 

@@ -2,60 +2,52 @@
 ============================================================================
 Name : 17b.c
 Author : Anuj Chaudhary
-Description : Write a program to simulate online ticket reservation. Implement write lock
-Write a program to open a file, store a ticket number and exit. Write a separate program, to
-open the file, implement write lock, read the ticket number, increment the number and print
-the new ticket number then close the file.
-Date: 30th Aug, 2024.
+Description : Write a program to execute ls -l | wc.
+a. use dup
+b. use dup2
+c. use fcntl
+Date: 27th sep, 2024.
 ============================================================================
 */
 #include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <stdlib.h>
 
 int main() {
-    int desc;
-    struct {
-        int ticketno;
-    } m;
+    int pipefd[2];  // pipefd[0] for reading, pipefd[1] for writing
+    pid_t pid;
 
-    struct flock lock;
+    // Create the pipe
+    if (pipe(pipefd) == -1) {
+        perror("Pipe failed");
+        exit(1);
+    }
 
+    // Fork the process
+    pid = fork();
 
-    desc = open("happy.txt", O_RDWR);
+    if (pid < 0) {
+        perror("Fork failed");
+        exit(1);
+    }
 
-   
-    lock.l_type = F_WRLCK;   
-    lock.l_whence = SEEK_SET;
-    lock.l_start = 0;        
-    lock.l_len = sizeof(m);   
-    lock.l_pid = getpid();    
-
-    fcntl(desc, F_SETLKW, &lock);
-
-    printf("Inside critical section\n");
-
-    read(desc, &m, sizeof(m));
-
-    printf("Current ticket number: %d\n", m.ticketno);
-    m.ticketno++;
-
-    lseek(desc, 0, SEEK_SET);
-    write(desc, &m, sizeof(m));
-
-    printf("Press Enter to unlock\n");
-    getchar();  
-
-    
-    lock.l_type = F_UNLCK;
-    fcntl(desc, F_SETLK, &lock);
-
-    printf("Out of critical section\n");
-
-    close(desc);
+    if (pid == 0) {
+        // Child process: will execute "ls -l"
+        close(pipefd[0]);      // Close unused read end of the pipe
+        dup2(pipefd[1], 1);    // Duplicate write end of the pipe to stdout (fd 1)
+        close(pipefd[1]);      // Close original write end after duplicating
+        execlp("ls", "ls", "-l", (char *)NULL);  // Execute ls -l
+        perror("execlp failed");
+        exit(1);
+    } else {
+        // Parent process: will execute "wc"
+        close(pipefd[1]);      // Close unused write end of the pipe
+        dup2(pipefd[0], 0);    // Duplicate read end of the pipe to stdin (fd 0)
+        close(pipefd[0]);      // Close original read end after duplicating
+        execlp("wc", "wc", (char *)NULL);  // Execute wc
+        perror("execlp failed");
+        exit(1);
+    }
 
     return 0;
 }

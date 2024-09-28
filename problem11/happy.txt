@@ -1,4 +1,0 @@
-old one FD
-dup1 FD
-dup2 FD
-fcntl FD
